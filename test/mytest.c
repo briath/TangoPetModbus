@@ -40,7 +40,7 @@ int main()
     /*for (i=0; i<32; i++) {
         tab_reg[i] = (uint16_t) (65535.0*rand() / (RAND_MAX + 1.0));
         }*/
-    modbus_read_bits(mb, 0, 1, tab_reg1);
+    /* modbus_read_bits(mb, 0, 1, tab_reg1);
     printf("%d: %x\n", 0, tab_reg1[0]);
     sleep(1);
     rc = modbus_write_bit(mb, addr, 1);
@@ -49,7 +49,11 @@ int main()
     sleep(1);
     rc = modbus_write_bit(mb, addr, 0);
     modbus_read_bits(mb, 0, 1, tab_reg1);
-    printf("%d: %d\n", 0, tab_reg1[0]);
+    printf("%d: %d\n", 0, tab_reg1[0]);*/
+    rc = modbus_write_registers(mb, addr, -1, tab_reg);
+    printf("%d: 0x%x\n%d\n", 0, tab_reg[0], rc);
+    printf("%s\n", modbus_strerror(errno));
+    
     //rc = modbus_read_input_registers(mb, 0, 8, tab_reg);
     
     /*if(rc != 1){
