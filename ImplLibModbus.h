@@ -1,4 +1,4 @@
-#include 
+
 
 
 class ImplLibModbus{
@@ -31,5 +31,13 @@ public:
 
 	void ping();
 
+	short get_moduleID();
+	void set_moduleID(short 'ID');
+
+	string get_moduleIP();
+	void set_moduleIP(string 'IP');
+
+	short get_modulePort();
+	void set_modulePort(short 'Port');
 
 }

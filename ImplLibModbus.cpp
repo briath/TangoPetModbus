@@ -1,3 +1,5 @@
+#include "ImplLibModbus.h"
+
 ImplLibModbus::ImplLibModbus(short ID, string IP, short Port) {
 	init(ID, IP, Port);
 }
@@ -5,10 +7,15 @@ ImplLibModbus::ImplLibModbus(short ID, string IP, short Port) {
 void ImplLibModbus::init(short ID, string IP, short Port){
 
 	mb = modbus_new_tcp(IP.c_str(), Port);
+	if(mb == NULL){
+		throw "Unable to allocate libmodbus context\n";
+	}
 	modbus_set_slave(mb, ID);
 
-	if(modbus_connect(mb) == -1)
+	if(modbus_connect(mb) == -1){
+		modbus_free(mb);
 		throw "Connection failed: error "+errno+": "+modbus_strerror(errno);
+	}
 
 }
 

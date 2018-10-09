@@ -36,6 +36,7 @@
 #include <tango.h>
 #include <modbus.h>
 #include <string>
+#include "ImplLibModbus.h"
 
 
 /*----- PROTECTED REGION END -----*/	//	Pet7019.h
@@ -58,8 +59,21 @@ class Pet7019 : public TANGO_BASE_CLASS
 
 /*----- PROTECTED REGION ID(Pet7019::Data Members) ENABLED START -----*/
 
-  modbus_t *mb;
+  ImplLibModbus *mb;
   map<string, uint8_t> attr_to_channel;
+  enum RegPet7019
+  {
+  	REGISTER_calibrationAI = 0x033e,
+  	REGISTER_numberChannelDO = 0x0136,
+  	REGISTER_numberChannelAI = 0x0140,
+  	REGISTER_modelName = 0x022f,
+  	REGISTER_value = 0x0000,
+  	REGISTER_enabledPowerOnDO = 0x01b3,
+  	REGISTER_enabledSafeDO = 0x0203,
+  	REGISTER_functionAI = 0x0253,
+  	REGISTER_rangeAI = 0x01ab,
+  	REGISTER_reboot = 0x00e9,
+  };
 
 /*----- PROTECTED REGION END -----*/	//	Pet7019::Data Members
 

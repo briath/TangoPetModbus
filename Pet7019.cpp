@@ -120,8 +120,7 @@ void Pet7019::delete_device()
 	/*----- PROTECTED REGION ID(Pet7019::delete_device) ENABLED START -----*/
 		
 		if(mb != NULL){
-        	modbus_close(mb);
-			modbus_free(mb);
+        	delete mb;
 		}
 	
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::delete_device
@@ -161,7 +160,18 @@ void Pet7019::init_device()
 	/*----- PROTECTED REGION ID(Pet7019::init_device) ENABLED START -----*/
 
 	
+	try {
 
+		mb = new ImplLibModbus(moduleID, moduleIP.c_str(), modulePort);
+		set_state(Tango::ON);
+		set_status("Pet7019 connected");
+
+	}catch(ModbusException e){
+		set_state(Tango::FAULT);
+		set_status(e.what());
+	}
+
+	/*
 	mb = modbus_new_tcp(moduleIP.c_str(), modulePort);
 
 	if(mb == NULL){
@@ -169,7 +179,7 @@ void Pet7019::init_device()
 		set_status("Error: modbus_new_tcp");
 	}else {
 
-	    modbus_set_slave(mb, moduleID);
+	    modbus_set_slave(mb, );
 	    
 		if(modbus_connect(mb) == -1){
 	        //modbus_free(mb);
@@ -181,7 +191,7 @@ void Pet7019::init_device()
 	    	set_state(Tango::ON);
 			set_status("modbus_connect");
 		}
-	}
+	}*/
 		
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::init_device
 }
@@ -366,7 +376,9 @@ void Pet7019::read_calibrationAI(Tango::Attribute &attr)
 	DEBUG_STREAM << "Pet7019::read_calibrationAI(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Pet7019::read_calibrationAI) ENABLED START -----*/
 	uint8_t uint8_reg = 0;
-	modbus_read_bits(mb, 0x033e, 1, &uint8_reg);
+
+	mb.read_bits(RegPet7019::REGISTER_calibrationAI, 1, &uint8_reg);
+
 	*attr_calibrationAI_read = uint8_reg;
 	attr.set_value(attr_calibrationAI_read);
 	
@@ -388,7 +400,7 @@ void Pet7019::write_calibrationAI(Tango::WAttribute &attr)
 	Tango::DevBoolean	w_val;
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(Pet7019::write_calibrationAI) ENABLED START -----*/
-	modbus_write_bit(mb, 0x033e, w_val);
+	mb.write_bit(RegPet7019::REGISTER_calibrationAI, w_val);
 	
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::write_calibrationAI
 }
@@ -406,7 +418,9 @@ void Pet7019::read_numberChannelDO(Tango::Attribute &attr)
 	DEBUG_STREAM << "Pet7019::read_numberChannelDO(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Pet7019::read_numberChannelDO) ENABLED START -----*/
 	uint16_t uint16_reg = 0;
-	modbus_read_input_registers(mb, 0x0136, 1, &uint16_reg);
+
+	mb.read_input_registers(RegPet7019::REGISTER_numberChannelDO, 1, &uint16_reg);
+
 	*attr_numberChannelDO_read = uint16_reg;
 	attr.set_value(attr_numberChannelDO_read);
 	
@@ -426,7 +440,9 @@ void Pet7019::read_numberChannelAI(Tango::Attribute &attr)
 	DEBUG_STREAM << "Pet7019::read_numberChannelAI(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Pet7019::read_numberChannelAI) ENABLED START -----*/
 	uint16_t uint16_reg = 0;
-	modbus_read_input_registers(mb, 0x0140, 1, &uint16_reg);
+
+	mb.read_input_registers(RegPet7019::REGISTER_numberChannelAI, 1, &uint16_reg);
+
 	*attr_numberChannelAI_read = uint16_reg;
 	attr.set_value(attr_numberChannelAI_read);
 	
@@ -446,7 +462,9 @@ void Pet7019::read_modelName(Tango::Attribute &attr)
 	DEBUG_STREAM << "Pet7019::read_modelName(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Pet7019::read_modelName) ENABLED START -----*/
 	uint16_t uint16_reg = 0;
-	modbus_read_registers(mb, 0x022f, 1, &uint16_reg);
+
+	mb.read_registers(RegPet7019::REGISTER_modelName, 1, &uint16_reg);
+
 	*attr_modelName_read = uint16_reg;
 	attr.set_value(attr_modelName_read);
 	
@@ -468,7 +486,9 @@ void Pet7019::read_valueDO(Tango::Attribute &attr)
 	Tango::DevBoolean	*att_value = get_valueDO_data_ptr(attr.get_name());
 	/*----- PROTECTED REGION ID(Pet7019::read_valueDO) ENABLED START -----*/
 	uint8_t uint8_reg = 0;
-	modbus_read_bits(mb, attr_to_channel[attr.get_name()], 1, &uint8_reg);
+
+	mb.read_bits(regPet7019::REGISTER_value+attr_to_channel[attr.get_name()], 1, &uint8_reg);
+
 	*att_value = uint8_reg; //cast to devBoolean
 	attr.set_value(att_value);
 	
@@ -490,7 +510,8 @@ void Pet7019::write_valueDO(Tango::WAttribute &attr)
 	Tango::DevBoolean	w_val;
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(Pet7019::write_valueDO) ENABLED START -----*/
-	modbus_write_bit(mb, attr_to_channel[attr.get_name()], w_val);
+
+	mb.write_bit(regPet7019::REGISTER_value+attr_to_channel[attr.get_name()], w_val);
 	
 	
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::write_valueDO
@@ -510,7 +531,9 @@ void Pet7019::read_enabledPowerOnDO(Tango::Attribute &attr)
 	Tango::DevBoolean	*att_value = get_enabledPowerOnDO_data_ptr(attr.get_name());
 	/*----- PROTECTED REGION ID(Pet7019::read_enabledPowerOnDO) ENABLED START -----*/
 	uint8_t uint8_reg = 0;
-	modbus_read_bits(mb, 0x01b3+attr_to_channel[attr.get_name()], 1, &uint8_reg);
+
+	mb.read_bits(regPet7019::REGISTER_enabledPowerOnDO+attr_to_channel[attr.get_name()], 1, &uint8_reg);
+
 	*att_value = static_cast<bool>(uint8_reg);
 	attr.set_value(att_value);
 	
@@ -533,7 +556,7 @@ void Pet7019::write_enabledPowerOnDO(Tango::WAttribute &attr)
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(Pet7019::write_enabledPowerOnDO) ENABLED START -----*/
 	
-	modbus_write_bit(mb, 0x01b3+attr_to_channel[attr.get_name()], w_val);
+	mb.write_bit(regPet7019::REGISTER_enabledPowerOnDO+attr_to_channel[attr.get_name()], w_val);
 	
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::write_enabledPowerOnDO
 }
@@ -552,7 +575,9 @@ void Pet7019::read_enabledSafeDO(Tango::Attribute &attr)
 	Tango::DevBoolean	*att_value = get_enabledSafeDO_data_ptr(attr.get_name());
 	/*----- PROTECTED REGION ID(Pet7019::read_enabledSafeDO) ENABLED START -----*/
 	uint8_t uint8_reg = 0;
-	modbus_read_bits(mb, 0x0203+attr_to_channel[attr.get_name()], 1, &uint8_reg);
+
+	mb.read_bits(regPet7019::REGISTER_enabledSafeDO+attr_to_channel[attr.get_name()], 1, &uint8_reg);
+
 	*att_value = static_cast<bool>(uint8_reg);
 	attr.set_value(att_value);
 	
@@ -575,7 +600,7 @@ void Pet7019::write_enabledSafeDO(Tango::WAttribute &attr)
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(Pet7019::write_enabledSafeDO) ENABLED START -----*/
 	
-	modbus_write_bit(mb, 0x0203+attr_to_channel[attr.get_name()], w_val);
+	mb.write_bit(regPet7019::REGISTER_enabledSafeDO+attr_to_channel[attr.get_name()], w_val);
 
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::write_enabledSafeDO
 }
@@ -595,7 +620,8 @@ void Pet7019::read_functionAI(Tango::Attribute &attr)
 	/*----- PROTECTED REGION ID(Pet7019::read_functionAI) ENABLED START -----*/
 	uint8_t uint8_reg = 0;
 
-	modbus_read_bits(mb, 0x0253+attr_to_channel[attr.get_name()], 1, &uint8_reg);
+	mb.read_bits(regPet7019::REGISTER_functionAI+attr_to_channel[attr.get_name()], 1, &uint8_reg);
+
 	*att_value = static_cast<bool>(uint8_reg);
 	attr.set_value(att_value);
 	
@@ -618,7 +644,8 @@ void Pet7019::write_functionAI(Tango::WAttribute &attr)
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(Pet7019::write_functionAI) ENABLED START -----*/
 
-	modbus_write_bit(mb, 0x0253+attr_to_channel[attr.get_name()], w_val);
+	mb.write_bit(regPet7019::REGISTER_functionAI+attr_to_channel[attr.get_name()], w_val);
+
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::write_functionAI
 }
 //--------------------------------------------------------
@@ -636,7 +663,9 @@ void Pet7019::read_valueAI(Tango::Attribute &attr)
 	Tango::DevShort	*att_value = get_valueAI_data_ptr(attr.get_name());
 	/*----- PROTECTED REGION ID(Pet7019::read_valueAI) ENABLED START -----*/
 	uint16_t uint16_reg = 0;
-	modbus_read_input_registers(mb, attr_to_channel[attr.get_name()], 1, &uint16_reg);
+
+	mb.read_input_registers(regPet7019::REGISTER_value+attr_to_channel[attr.get_name()], 1, &uint16_reg);
+
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::read_valueAI
 }
 //--------------------------------------------------------
@@ -655,8 +684,8 @@ void Pet7019::read_rangeAI(Tango::Attribute &attr)
 	/*----- PROTECTED REGION ID(Pet7019::read_rangeAI) ENABLED START -----*/
 	uint16_t uint16_reg = 0;
 	try{
-		if(modbus_read_registers(mb, 0x01ab+attr_to_channel[attr.get_name()], 1, &uint16_reg) != 1)
-			if(modbus_read_registers(mb, 0x022f, 1, &uint16_reg) != 1)
+		if(mb.read_registers(regPet7019::REGISTER_rangeAI+attr_to_channel[attr.get_name()], 1, &uint16_reg) != 1)
+			if(modbus_read_registers(mb, regPet7019::REGISTER_MODELNAME, 1, &uint16_reg) != 1)
 				throw std::string("Error: modbus connection failed");
 		*att_value = uint16_reg;
 		attr.set_value(att_value);
@@ -695,9 +724,9 @@ void Pet7019::write_rangeAI(Tango::WAttribute &attr)
 				"invalid rangeAI parametr\n",
 				(const char *)"Pet7019::always_executed_hook()");
 
-		if((rc = modbus_write_registers(mb, 0x01ab+attr_to_channel[attr.get_name()], 1, &uint16_reg)) != 1)
+		if((rc = mb.write_registers(regPet7019::REGISTER_rangeAI+attr_to_channel[attr.get_name()], 1, &uint16_reg)) != 1)
 		{
-			if(modbus_read_registers(mb, 0x022f, 1, &uint16_reg) != 1){
+			if(modbus_read_registers(mb, regPet7019::REGISTER_MODELNAME, 1, &uint16_reg) != 1){
 				set_state(Tango::FAULT);
 				set_status("Error: modbus connection failed");
 			}
@@ -780,7 +809,7 @@ void Pet7019::reboot()
 	DEBUG_STREAM << "Pet7019::reboot()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(Pet7019::reboot) ENABLED START -----*/
 	
-	modbus_write_bit(mb, 0x00e9, 1);
+	mb.write_bit(regPet7019::REGISTER_reboot, 1);
 	
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::reboot
 }
@@ -796,7 +825,7 @@ void Pet7019::ping()
 	DEBUG_STREAM << "Pet7019::ping()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(Pet7019::ping) ENABLED START -----*/
 	
-	//	Add your own code
+	mb.ping();
 	
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::ping
 }
