@@ -24,6 +24,8 @@ MAJOR_VERS   = 1
 MINOR_VERS   = 0
 RELEASE      = Release_$(MAJOR_VERS)_$(MINOR_VERS)
 
+ADDITIONAL_OBJS = ImplLibModbus.o
+
 # #=============================================================================
 # # RELEASE_TYPE
 # # - DEBUG     : debug symbols - no optimization

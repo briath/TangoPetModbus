@@ -34,9 +34,8 @@
 #define Pet7019_H
 
 #include <tango.h>
-#include <modbus.h>
-#include <string>
 #include "ImplLibModbus.h"
+
 
 
 /*----- PROTECTED REGION END -----*/	//	Pet7019.h
@@ -73,6 +72,7 @@ class Pet7019 : public TANGO_BASE_CLASS
   	REGISTER_functionAI = 0x0253,
   	REGISTER_rangeAI = 0x01ab,
   	REGISTER_reboot = 0x00e9,
+  	REGISTER_ping = 0x022f
   };
 
 /*----- PROTECTED REGION END -----*/	//	Pet7019::Data Members
