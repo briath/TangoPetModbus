@@ -64,7 +64,7 @@ INC_DIR_USER= -I . -I/usr/include/modbus
 #   - for a device server, tango libraries directories are automatically appended
 #   - '-L ../lib' is automatically appended in all cases
 #
-LIB_DIR_USER= -L/usr/lib/x86_64-linux-gnu
+LIB_DIR_USER= 
 
 #=============================================================================
 # LFLAGS_USR is the list of user link flags

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="Pet7019" pogoRevision="9.4">
-    <description description="" title="" sourcePath="/home/winix/Garazovsky/pet-7019" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" license="GPL" copyright="" hasMandatoryProperty="true" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
+    <description description="" title="" sourcePath="/home/winix/Garazovsky/pet-7019" language="Cpp" filestogenerate="XMI   file,Code files,Makefile,Protected Regions" license="GPL" copyright="" hasMandatoryProperty="true" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
       <identification contact="at g.nsu.ru - m.garazovskii" author="m.garazovskii" emailDomain="g.nsu.ru" classFamily="Acquisition" siteSpecific="" platform="All Platforms" bus="Modbus" manufacturer="icpcon" reference=""/>
     </description>
@@ -157,5 +157,7 @@
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </states>
     <preferences docHome="./doc_html" makefileHome="/usr/share/pogo/preferences"/>
+    <additionalFiles name="ImplLibModbus" path="/home/winix/Garazovsky/pet-7019/ImplLibModbus.cpp"/>
+    <additionalFiles name="PetException" path="/home/winix/Garazovsky/pet-7019/PetException.cpp"/>
   </classes>
 </pogoDsl:PogoSystem>

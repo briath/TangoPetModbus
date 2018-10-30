@@ -1,12 +1,13 @@
-
+#include <exception>
+#include <string>
 
 class PetException: public std::exception{
 public:
-	PetException(const int err, std::string str);
+	PetException(int err, std::string str);
 
-	virtual const char* what() const throw();
+	const char* what() const throw();
 
 private:
-	const int error;
+	int error;
 	std::string str_err;
 };

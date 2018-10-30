@@ -69,101 +69,101 @@
 
 namespace Pet7019_ns
 {
-	/*----- PROTECTED REGION ID(Pet7019::namespace_starting) ENABLED START -----*/
+/*----- PROTECTED REGION ID(Pet7019::namespace_starting) ENABLED START -----*/
 
 	//	static initializations
 
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::namespace_starting
 
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::Pet7019()
-	 *	Description : Constructors for a Tango device
-	 *                implementing the classPet7019
-	 */
-	//--------------------------------------------------------
-	Pet7019::Pet7019(Tango::DeviceClass *cl, string &s)
-	 : TANGO_BASE_CLASS(cl, s.c_str())
-	{
-		/*----- PROTECTED REGION ID(Pet7019::constructor_1) ENABLED START -----*/
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::Pet7019()
+ *	Description : Constructors for a Tango device
+ *                implementing the classPet7019
+ */
+//--------------------------------------------------------
+Pet7019::Pet7019(Tango::DeviceClass *cl, string &s)
+ : TANGO_BASE_CLASS(cl, s.c_str())
+{
+	/*----- PROTECTED REGION ID(Pet7019::constructor_1) ENABLED START -----*/
 		init_device();
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::constructor_1
-	}
-	//--------------------------------------------------------
-	Pet7019::Pet7019(Tango::DeviceClass *cl, const char *s)
-	 : TANGO_BASE_CLASS(cl, s)
-	{
-		/*----- PROTECTED REGION ID(Pet7019::constructor_2) ENABLED START -----*/
+}
+//--------------------------------------------------------
+Pet7019::Pet7019(Tango::DeviceClass *cl, const char *s)
+ : TANGO_BASE_CLASS(cl, s)
+{
+	/*----- PROTECTED REGION ID(Pet7019::constructor_2) ENABLED START -----*/
 		init_device();
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::constructor_2
-	}
-	//--------------------------------------------------------
-	Pet7019::Pet7019(Tango::DeviceClass *cl, const char *s, const char *d)
-	 : TANGO_BASE_CLASS(cl, s, d)
-	{
-		/*----- PROTECTED REGION ID(Pet7019::constructor_3) ENABLED START -----*/
+}
+//--------------------------------------------------------
+Pet7019::Pet7019(Tango::DeviceClass *cl, const char *s, const char *d)
+ : TANGO_BASE_CLASS(cl, s, d)
+{
+	/*----- PROTECTED REGION ID(Pet7019::constructor_3) ENABLED START -----*/
 		init_device();
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::constructor_3
-	}
+}
 
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::delete_device()
-	 *	Description : will be called at device destruction or at init command
-	 */
-	//--------------------------------------------------------
-	void Pet7019::delete_device()
-	{
-		DEBUG_STREAM << "Pet7019::delete_device() " << device_name << endl;
-		/*----- PROTECTED REGION ID(Pet7019::delete_device) ENABLED START -----*/
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::delete_device()
+ *	Description : will be called at device destruction or at init command
+ */
+//--------------------------------------------------------
+void Pet7019::delete_device()
+{
+	DEBUG_STREAM << "Pet7019::delete_device() " << device_name << endl;
+	/*----- PROTECTED REGION ID(Pet7019::delete_device) ENABLED START -----*/
 			
 			if(mb != NULL){
 	        	delete mb;
 			}
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::delete_device
-		delete[] attr_calibrationAI_read;
-		delete[] attr_numberChannelDO_read;
-		delete[] attr_numberChannelAI_read;
-		delete[] attr_modelName_read;
-	}
+	delete[] attr_calibrationAI_read;
+	delete[] attr_numberChannelDO_read;
+	delete[] attr_numberChannelAI_read;
+	delete[] attr_modelName_read;
+}
 
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::init_device()
-	 *	Description : will be called at device initialization.
-	 */
-	//--------------------------------------------------------
-	void Pet7019::init_device()
-	{
-		DEBUG_STREAM << "Pet7019::init_device() create device " << device_name << endl;
-		/*----- PROTECTED REGION ID(Pet7019::init_device_before) ENABLED START -----*/
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::init_device()
+ *	Description : will be called at device initialization.
+ */
+//--------------------------------------------------------
+void Pet7019::init_device()
+{
+	DEBUG_STREAM << "Pet7019::init_device() create device " << device_name << endl;
+	/*----- PROTECTED REGION ID(Pet7019::init_device_before) ENABLED START -----*/
 		
 	        
 
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::init_device_before
-		
+	
 
-		//	Get the device properties from database
-		get_device_property();
-		
-		attr_calibrationAI_read = new Tango::DevBoolean[1];
-		attr_numberChannelDO_read = new Tango::DevShort[1];
-		attr_numberChannelAI_read = new Tango::DevShort[1];
-		attr_modelName_read = new Tango::DevLong[1];
-		//	No longer if mandatory property not set. 
-		if (mandatoryNotDefined)
-			return;
+	//	Get the device properties from database
+	get_device_property();
+	
+	attr_calibrationAI_read = new Tango::DevBoolean[1];
+	attr_numberChannelDO_read = new Tango::DevShort[1];
+	attr_numberChannelAI_read = new Tango::DevShort[1];
+	attr_modelName_read = new Tango::DevLong[1];
+	//	No longer if mandatory property not set. 
+	if (mandatoryNotDefined)
+		return;
 
-		/*----- PROTECTED REGION ID(Pet7019::init_device) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(Pet7019::init_device) ENABLED START -----*/
 
 		
 		try {
-
-			mb = new ImplLibModbus(moduleID, moduleIP.c_str(), modulePort);
+			if(mb == NULL)
+				mb = new ImplLibModbus(moduleID, moduleIP.c_str(), modulePort);
 			set_state(Tango::ON);
 			set_status("Pet7019 connected");
 
@@ -173,187 +173,187 @@ namespace Pet7019_ns
 		}
 			
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::init_device
-	}
+}
 
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::get_device_property()
-	 *	Description : Read database to initialize property data members.
-	 */
-	//--------------------------------------------------------
-	void Pet7019::get_device_property()
-	{
-		/*----- PROTECTED REGION ID(Pet7019::get_device_property_before) ENABLED START -----*/
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::get_device_property()
+ *	Description : Read database to initialize property data members.
+ */
+//--------------------------------------------------------
+void Pet7019::get_device_property()
+{
+	/*----- PROTECTED REGION ID(Pet7019::get_device_property_before) ENABLED START -----*/
 		
 		//	Initialize property data members
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::get_device_property_before
 
-		mandatoryNotDefined = false;
+	mandatoryNotDefined = false;
 
-		//	Read device properties from database.
-		Tango::DbData	dev_prop;
-		dev_prop.push_back(Tango::DbDatum("ModuleID"));
-		dev_prop.push_back(Tango::DbDatum("ModuleIP"));
-		dev_prop.push_back(Tango::DbDatum("ModulePort"));
+	//	Read device properties from database.
+	Tango::DbData	dev_prop;
+	dev_prop.push_back(Tango::DbDatum("ModuleID"));
+	dev_prop.push_back(Tango::DbDatum("ModuleIP"));
+	dev_prop.push_back(Tango::DbDatum("ModulePort"));
 
-		//	is there at least one property to be read ?
-		if (dev_prop.size()>0)
-		{
-			//	Call database and extract values
-			if (Tango::Util::instance()->_UseDb==true)
-				get_db_device()->get_property(dev_prop);
-		
-			//	get instance on Pet7019Class to get class property
-			Tango::DbDatum	def_prop, cl_prop;
-			Pet7019Class	*ds_class =
-				(static_cast<Pet7019Class *>(get_device_class()));
-			int	i = -1;
+	//	is there at least one property to be read ?
+	if (dev_prop.size()>0)
+	{
+		//	Call database and extract values
+		if (Tango::Util::instance()->_UseDb==true)
+			get_db_device()->get_property(dev_prop);
+	
+		//	get instance on Pet7019Class to get class property
+		Tango::DbDatum	def_prop, cl_prop;
+		Pet7019Class	*ds_class =
+			(static_cast<Pet7019Class *>(get_device_class()));
+		int	i = -1;
 
-			//	Try to initialize ModuleID from class property
-			cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-			if (cl_prop.is_empty()==false)	cl_prop  >>  moduleID;
-			else {
-				//	Try to initialize ModuleID from default device value
-				def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-				if (def_prop.is_empty()==false)	def_prop  >>  moduleID;
-			}
-			//	And try to extract ModuleID value from database
-			if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  moduleID;
-			//	Property StartDsPath is mandatory, check if has been defined in database.
-			check_mandatory_property(cl_prop, dev_prop[i]);
-
-			//	Try to initialize ModuleIP from class property
-			cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-			if (cl_prop.is_empty()==false)	cl_prop  >>  moduleIP;
-			else {
-				//	Try to initialize ModuleIP from default device value
-				def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-				if (def_prop.is_empty()==false)	def_prop  >>  moduleIP;
-			}
-			//	And try to extract ModuleIP value from database
-			if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  moduleIP;
-			//	Property StartDsPath is mandatory, check if has been defined in database.
-			check_mandatory_property(cl_prop, dev_prop[i]);
-
-			//	Try to initialize ModulePort from class property
-			cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-			if (cl_prop.is_empty()==false)	cl_prop  >>  modulePort;
-			else {
-				//	Try to initialize ModulePort from default device value
-				def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-				if (def_prop.is_empty()==false)	def_prop  >>  modulePort;
-			}
-			//	And try to extract ModulePort value from database
-			if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  modulePort;
-			//	Property StartDsPath is mandatory, check if has been defined in database.
-			check_mandatory_property(cl_prop, dev_prop[i]);
-
+		//	Try to initialize ModuleID from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  moduleID;
+		else {
+			//	Try to initialize ModuleID from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  moduleID;
 		}
+		//	And try to extract ModuleID value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  moduleID;
+		//	Property StartDsPath is mandatory, check if has been defined in database.
+		check_mandatory_property(cl_prop, dev_prop[i]);
 
-		/*----- PROTECTED REGION ID(Pet7019::get_device_property_after) ENABLED START -----*/
+		//	Try to initialize ModuleIP from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  moduleIP;
+		else {
+			//	Try to initialize ModuleIP from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  moduleIP;
+		}
+		//	And try to extract ModuleIP value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  moduleIP;
+		//	Property StartDsPath is mandatory, check if has been defined in database.
+		check_mandatory_property(cl_prop, dev_prop[i]);
+
+		//	Try to initialize ModulePort from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  modulePort;
+		else {
+			//	Try to initialize ModulePort from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  modulePort;
+		}
+		//	And try to extract ModulePort value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  modulePort;
+		//	Property StartDsPath is mandatory, check if has been defined in database.
+		check_mandatory_property(cl_prop, dev_prop[i]);
+
+	}
+
+	/*----- PROTECTED REGION ID(Pet7019::get_device_property_after) ENABLED START -----*/
 
 		//	Check device property data members init
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::get_device_property_after
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::check_mandatory_property()
-	 *	Description : For mandatory properties check if defined in database.
-	 */
-	//--------------------------------------------------------
-	void Pet7019::check_mandatory_property(Tango::DbDatum &class_prop, Tango::DbDatum &dev_prop)
+}
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::check_mandatory_property()
+ *	Description : For mandatory properties check if defined in database.
+ */
+//--------------------------------------------------------
+void Pet7019::check_mandatory_property(Tango::DbDatum &class_prop, Tango::DbDatum &dev_prop)
+{
+	//	Check if all properties are empty
+	if (class_prop.is_empty() && dev_prop.is_empty())
 	{
-		//	Check if all properties are empty
-		if (class_prop.is_empty() && dev_prop.is_empty())
-		{
-			TangoSys_OMemStream	tms;
-			tms << endl <<"Property \'" << dev_prop.name;
-			if (Tango::Util::instance()->_UseDb==true)
-				tms << "\' is mandatory but not defined in database";
-			else
-				tms << "\' is mandatory but cannot be defined without database";
-			string	status(get_status());
-			status += tms.str();
-			set_status(status);
-			mandatoryNotDefined = true;
-			/*----- PROTECTED REGION ID(Pet7019::check_mandatory_property) ENABLED START -----*/
+		TangoSys_OMemStream	tms;
+		tms << endl <<"Property \'" << dev_prop.name;
+		if (Tango::Util::instance()->_UseDb==true)
+			tms << "\' is mandatory but not defined in database";
+		else
+			tms << "\' is mandatory but cannot be defined without database";
+		string	status(get_status());
+		status += tms.str();
+		set_status(status);
+		mandatoryNotDefined = true;
+		/*----- PROTECTED REGION ID(Pet7019::check_mandatory_property) ENABLED START -----*/
 			cerr << tms.str() << " for " << device_name << endl;
 			
 			/*----- PROTECTED REGION END -----*/	//	Pet7019::check_mandatory_property
-		}
 	}
+}
 
 
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::always_executed_hook()
-	 *	Description : method always executed before any command is executed
-	 */
-	//--------------------------------------------------------
-	void Pet7019::always_executed_hook()
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::always_executed_hook()
+ *	Description : method always executed before any command is executed
+ */
+//--------------------------------------------------------
+void Pet7019::always_executed_hook()
+{
+	DEBUG_STREAM << "Pet7019::always_executed_hook()  " << device_name << endl;
+	if (mandatoryNotDefined)
 	{
-		DEBUG_STREAM << "Pet7019::always_executed_hook()  " << device_name << endl;
-		if (mandatoryNotDefined)
-		{
-			string	status(get_status());
-			Tango::Except::throw_exception(
-						(const char *)"PROPERTY_NOT_SET",
-						status.c_str(),
-						(const char *)"Pet7019::always_executed_hook()");
-		}
-		/*----- PROTECTED REGION ID(Pet7019::always_executed_hook) ENABLED START -----*/
+		string	status(get_status());
+		Tango::Except::throw_exception(
+					(const char *)"PROPERTY_NOT_SET",
+					status.c_str(),
+					(const char *)"Pet7019::always_executed_hook()");
+	}
+	/*----- PROTECTED REGION ID(Pet7019::always_executed_hook) ENABLED START -----*/
 		
 		//	code always executed before all requests
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::always_executed_hook
-	}
+}
 
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::read_attr_hardware()
-	 *	Description : Hardware acquisition for attributes
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
-	{
-		DEBUG_STREAM << "Pet7019::read_attr_hardware(vector<long> &attr_list) entering... " << endl;
-		/*----- PROTECTED REGION ID(Pet7019::read_attr_hardware) ENABLED START -----*/
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::read_attr_hardware()
+ *	Description : Hardware acquisition for attributes
+ */
+//--------------------------------------------------------
+void Pet7019::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
+{
+	DEBUG_STREAM << "Pet7019::read_attr_hardware(vector<long> &attr_list) entering... " << endl;
+	/*----- PROTECTED REGION ID(Pet7019::read_attr_hardware) ENABLED START -----*/
 		
 		//	Add your own code
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_attr_hardware
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::write_attr_hardware()
-	 *	Description : Hardware writing for attributes
-	 */
-	//--------------------------------------------------------
-	void Pet7019::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
-	{
-		DEBUG_STREAM << "Pet7019::write_attr_hardware(vector<long> &attr_list) entering... " << endl;
-		/*----- PROTECTED REGION ID(Pet7019::write_attr_hardware) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::write_attr_hardware()
+ *	Description : Hardware writing for attributes
+ */
+//--------------------------------------------------------
+void Pet7019::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
+{
+	DEBUG_STREAM << "Pet7019::write_attr_hardware(vector<long> &attr_list) entering... " << endl;
+	/*----- PROTECTED REGION ID(Pet7019::write_attr_hardware) ENABLED START -----*/
 		
 		//	Add your own code
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::write_attr_hardware
-	}
+}
 
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute calibrationAI related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_calibrationAI(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_calibrationAI(Tango::Attribute &attr) entering... " << endl;
-		/*----- PROTECTED REGION ID(Pet7019::read_calibrationAI) ENABLED START -----*/
+//--------------------------------------------------------
+/**
+ *	Read attribute calibrationAI related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_calibrationAI(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_calibrationAI(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Pet7019::read_calibrationAI) ENABLED START -----*/
 		uint8_t uint8_reg = 0;
 
 		try{
@@ -367,23 +367,23 @@ namespace Pet7019_ns
 		attr.set_value(attr_calibrationAI_read);
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_calibrationAI
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Write attribute calibrationAI related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::write_calibrationAI(Tango::WAttribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::write_calibrationAI(Tango::WAttribute &attr) entering... " << endl;
-		//	Retrieve write value
-		Tango::DevBoolean	w_val;
-		attr.get_write_value(w_val);
-		/*----- PROTECTED REGION ID(Pet7019::write_calibrationAI) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute calibrationAI related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::write_calibrationAI(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::write_calibrationAI(Tango::WAttribute &attr) entering... " << endl;
+	//	Retrieve write value
+	Tango::DevBoolean	w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(Pet7019::write_calibrationAI) ENABLED START -----*/
 		try{
 			mb->write_bit(RegPet7019::REGISTER_calibrationAI, w_val);
 		} catch(PetException e) {
@@ -392,20 +392,20 @@ namespace Pet7019_ns
 		}
 
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::write_calibrationAI
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute numberChannelDO related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevShort
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_numberChannelDO(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_numberChannelDO(Tango::Attribute &attr) entering... " << endl;
-		/*----- PROTECTED REGION ID(Pet7019::read_numberChannelDO) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute numberChannelDO related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevShort
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_numberChannelDO(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_numberChannelDO(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Pet7019::read_numberChannelDO) ENABLED START -----*/
 		uint16_t uint16_reg = 0;
 		try{
 			mb->read_input_registers(RegPet7019::REGISTER_numberChannelDO, 1, &uint16_reg);
@@ -418,20 +418,20 @@ namespace Pet7019_ns
 		attr.set_value(attr_numberChannelDO_read);
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_numberChannelDO
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute numberChannelAI related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevShort
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_numberChannelAI(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_numberChannelAI(Tango::Attribute &attr) entering... " << endl;
-		/*----- PROTECTED REGION ID(Pet7019::read_numberChannelAI) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute numberChannelAI related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevShort
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_numberChannelAI(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_numberChannelAI(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Pet7019::read_numberChannelAI) ENABLED START -----*/
 		uint16_t uint16_reg = 0;
 		try{
 			mb->read_input_registers(RegPet7019::REGISTER_numberChannelAI, 1, &uint16_reg);
@@ -444,20 +444,20 @@ namespace Pet7019_ns
 		attr.set_value(attr_numberChannelAI_read);
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_numberChannelAI
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute modelName related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevLong
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_modelName(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_modelName(Tango::Attribute &attr) entering... " << endl;
-		/*----- PROTECTED REGION ID(Pet7019::read_modelName) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute modelName related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevLong
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_modelName(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_modelName(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Pet7019::read_modelName) ENABLED START -----*/
 		uint16_t uint16_reg = 0;
 
 		try{
@@ -471,22 +471,22 @@ namespace Pet7019_ns
 		attr.set_value(attr_modelName_read);
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_modelName
-	}
+}
 
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute valueDO related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_valueDO(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_valueDO(Tango::Attribute &attr) entering... " << endl;
-		Tango::DevBoolean	*att_value = get_valueDO_data_ptr(attr.get_name());
-		/*----- PROTECTED REGION ID(Pet7019::read_valueDO) ENABLED START -----*/
+//--------------------------------------------------------
+/**
+ *	Read attribute valueDO related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_valueDO(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_valueDO(Tango::Attribute &attr) entering... " << endl;
+	Tango::DevBoolean	*att_value = get_valueDO_data_ptr(attr.get_name());
+	/*----- PROTECTED REGION ID(Pet7019::read_valueDO) ENABLED START -----*/
 		uint8_t uint8_reg = 0;
 
 		try{
@@ -500,23 +500,23 @@ namespace Pet7019_ns
 		attr.set_value(att_value);
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_valueDO
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Write attribute valueDO related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::write_valueDO(Tango::WAttribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::write_valueDO(Tango::WAttribute &attr) entering... " << endl;
-		//	Retrieve write value
-		Tango::DevBoolean	w_val;
-		attr.get_write_value(w_val);
-		/*----- PROTECTED REGION ID(Pet7019::write_valueDO) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute valueDO related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::write_valueDO(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::write_valueDO(Tango::WAttribute &attr) entering... " << endl;
+	//	Retrieve write value
+	Tango::DevBoolean	w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(Pet7019::write_valueDO) ENABLED START -----*/
 
 		try {
 			mb->write_bit(RegPet7019::REGISTER_value+attr_to_channel[attr.get_name()], w_val);
@@ -526,21 +526,21 @@ namespace Pet7019_ns
 		}
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::write_valueDO
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute enabledPowerOnDO related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_enabledPowerOnDO(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_enabledPowerOnDO(Tango::Attribute &attr) entering... " << endl;
-		Tango::DevBoolean	*att_value = get_enabledPowerOnDO_data_ptr(attr.get_name());
-		/*----- PROTECTED REGION ID(Pet7019::read_enabledPowerOnDO) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute enabledPowerOnDO related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_enabledPowerOnDO(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_enabledPowerOnDO(Tango::Attribute &attr) entering... " << endl;
+	Tango::DevBoolean	*att_value = get_enabledPowerOnDO_data_ptr(attr.get_name());
+	/*----- PROTECTED REGION ID(Pet7019::read_enabledPowerOnDO) ENABLED START -----*/
 		uint8_t uint8_reg = 0;
 
 		try{
@@ -554,23 +554,23 @@ namespace Pet7019_ns
 		attr.set_value(att_value);
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_enabledPowerOnDO
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Write attribute enabledPowerOnDO related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::write_enabledPowerOnDO(Tango::WAttribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::write_enabledPowerOnDO(Tango::WAttribute &attr) entering... " << endl;
-		//	Retrieve write value
-		Tango::DevBoolean	w_val;
-		attr.get_write_value(w_val);
-		/*----- PROTECTED REGION ID(Pet7019::write_enabledPowerOnDO) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute enabledPowerOnDO related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::write_enabledPowerOnDO(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::write_enabledPowerOnDO(Tango::WAttribute &attr) entering... " << endl;
+	//	Retrieve write value
+	Tango::DevBoolean	w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(Pet7019::write_enabledPowerOnDO) ENABLED START -----*/
 		try{
 			mb->write_bit(RegPet7019::REGISTER_enabledPowerOnDO+attr_to_channel[attr.get_name()], w_val);
 		} catch(PetException e) {
@@ -579,21 +579,21 @@ namespace Pet7019_ns
 		}
 
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::write_enabledPowerOnDO
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute enabledSafeDO related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_enabledSafeDO(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_enabledSafeDO(Tango::Attribute &attr) entering... " << endl;
-		Tango::DevBoolean	*att_value = get_enabledSafeDO_data_ptr(attr.get_name());
-		/*----- PROTECTED REGION ID(Pet7019::read_enabledSafeDO) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute enabledSafeDO related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_enabledSafeDO(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_enabledSafeDO(Tango::Attribute &attr) entering... " << endl;
+	Tango::DevBoolean	*att_value = get_enabledSafeDO_data_ptr(attr.get_name());
+	/*----- PROTECTED REGION ID(Pet7019::read_enabledSafeDO) ENABLED START -----*/
 		uint8_t uint8_reg = 0;
 
 		try{
@@ -607,23 +607,23 @@ namespace Pet7019_ns
 		attr.set_value(att_value);
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_enabledSafeDO
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Write attribute enabledSafeDO related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::write_enabledSafeDO(Tango::WAttribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::write_enabledSafeDO(Tango::WAttribute &attr) entering... " << endl;
-		//	Retrieve write value
-		Tango::DevBoolean	w_val;
-		attr.get_write_value(w_val);
-		/*----- PROTECTED REGION ID(Pet7019::write_enabledSafeDO) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute enabledSafeDO related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::write_enabledSafeDO(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::write_enabledSafeDO(Tango::WAttribute &attr) entering... " << endl;
+	//	Retrieve write value
+	Tango::DevBoolean	w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(Pet7019::write_enabledSafeDO) ENABLED START -----*/
 		
 		try{
 			mb->write_bit(RegPet7019::REGISTER_enabledSafeDO+attr_to_channel[attr.get_name()], w_val);
@@ -633,21 +633,21 @@ namespace Pet7019_ns
 		}
 
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::write_enabledSafeDO
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute functionAI related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_functionAI(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_functionAI(Tango::Attribute &attr) entering... " << endl;
-		Tango::DevBoolean	*att_value = get_functionAI_data_ptr(attr.get_name());
-		/*----- PROTECTED REGION ID(Pet7019::read_functionAI) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute functionAI related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_functionAI(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_functionAI(Tango::Attribute &attr) entering... " << endl;
+	Tango::DevBoolean	*att_value = get_functionAI_data_ptr(attr.get_name());
+	/*----- PROTECTED REGION ID(Pet7019::read_functionAI) ENABLED START -----*/
 		uint8_t uint8_reg = 0;
 		try{
 			mb->read_bits(RegPet7019::REGISTER_functionAI+attr_to_channel[attr.get_name()], 1, &uint8_reg);
@@ -660,23 +660,23 @@ namespace Pet7019_ns
 		attr.set_value(att_value);
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_functionAI
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Write attribute functionAI related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::write_functionAI(Tango::WAttribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::write_functionAI(Tango::WAttribute &attr) entering... " << endl;
-		//	Retrieve write value
-		Tango::DevBoolean	w_val;
-		attr.get_write_value(w_val);
-		/*----- PROTECTED REGION ID(Pet7019::write_functionAI) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute functionAI related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::write_functionAI(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::write_functionAI(Tango::WAttribute &attr) entering... " << endl;
+	//	Retrieve write value
+	Tango::DevBoolean	w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(Pet7019::write_functionAI) ENABLED START -----*/
 		try{
 			mb->write_bit(RegPet7019::REGISTER_functionAI+attr_to_channel[attr.get_name()], w_val);
 		} catch(PetException e) {
@@ -685,21 +685,21 @@ namespace Pet7019_ns
 		}
 
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::write_functionAI
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute valueAI related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevShort
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_valueAI(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_valueAI(Tango::Attribute &attr) entering... " << endl;
-		Tango::DevShort	*att_value = get_valueAI_data_ptr(attr.get_name());
-		/*----- PROTECTED REGION ID(Pet7019::read_valueAI) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute valueAI related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevShort
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_valueAI(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_valueAI(Tango::Attribute &attr) entering... " << endl;
+	Tango::DevShort	*att_value = get_valueAI_data_ptr(attr.get_name());
+	/*----- PROTECTED REGION ID(Pet7019::read_valueAI) ENABLED START -----*/
 		uint16_t uint16_reg = 0;
 
 		try{
@@ -710,21 +710,21 @@ namespace Pet7019_ns
 		}
 
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_valueAI
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Read attribute rangeAI related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevUChar
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::read_rangeAI(Tango::Attribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::read_rangeAI(Tango::Attribute &attr) entering... " << endl;
-		Tango::DevUChar	*att_value = get_rangeAI_data_ptr(attr.get_name());
-		/*----- PROTECTED REGION ID(Pet7019::read_rangeAI) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute rangeAI related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevUChar
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::read_rangeAI(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::read_rangeAI(Tango::Attribute &attr) entering... " << endl;
+	Tango::DevUChar	*att_value = get_rangeAI_data_ptr(attr.get_name());
+	/*----- PROTECTED REGION ID(Pet7019::read_rangeAI) ENABLED START -----*/
 		uint16_t uint16_reg = 0;
 		try{
 			mb->read_registers(RegPet7019::REGISTER_rangeAI+attr_to_channel[attr.get_name()], 1, &uint16_reg);
@@ -734,23 +734,23 @@ namespace Pet7019_ns
 		}
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::read_rangeAI
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Write attribute rangeAI related method
-	 *	Description: 
-	 *
-	 *	Data type:	Tango::DevUChar
-	 *	Attr type:	Scalar
-	 */
-	//--------------------------------------------------------
-	void Pet7019::write_rangeAI(Tango::WAttribute &attr)
-	{
-		DEBUG_STREAM << "Pet7019::write_rangeAI(Tango::WAttribute &attr) entering... " << endl;
-		//	Retrieve write value
-		Tango::DevUChar	w_val;
-		attr.get_write_value(w_val);
-		/*----- PROTECTED REGION ID(Pet7019::write_rangeAI) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute rangeAI related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevUChar
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pet7019::write_rangeAI(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Pet7019::write_rangeAI(Tango::WAttribute &attr) entering... " << endl;
+	//	Retrieve write value
+	Tango::DevUChar	w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(Pet7019::write_rangeAI) ENABLED START -----*/
 		try{
 
 			int rc = -1;
@@ -769,26 +769,26 @@ namespace Pet7019_ns
 		}
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::write_rangeAI
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::add_dynamic_attributes()
-	 *	Description : Create the dynamic attributes if any
-	 *                for specified device.
-	 */
-	//--------------------------------------------------------
-	void Pet7019::add_dynamic_attributes()
-	{
-		//	Example to add dynamic attribute:
-		//	Copy inside the following protected area to create instance(s) at startup.
-		//	add_valueDO_dynamic_attribute("MyvalueDOAttribute");
-		//	add_enabledPowerOnDO_dynamic_attribute("MyenabledPowerOnDOAttribute");
-		//	add_enabledSafeDO_dynamic_attribute("MyenabledSafeDOAttribute");
-		//	add_functionAI_dynamic_attribute("MyfunctionAIAttribute");
-		//	add_valueAI_dynamic_attribute("MyvalueAIAttribute");
-		//	add_rangeAI_dynamic_attribute("MyrangeAIAttribute");
-		
-		/*----- PROTECTED REGION ID(Pet7019::add_dynamic_attributes) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::add_dynamic_attributes()
+ *	Description : Create the dynamic attributes if any
+ *                for specified device.
+ */
+//--------------------------------------------------------
+void Pet7019::add_dynamic_attributes()
+{
+	//	Example to add dynamic attribute:
+	//	Copy inside the following protected area to create instance(s) at startup.
+	//	add_valueDO_dynamic_attribute("MyvalueDOAttribute");
+	//	add_enabledPowerOnDO_dynamic_attribute("MyenabledPowerOnDOAttribute");
+	//	add_enabledSafeDO_dynamic_attribute("MyenabledSafeDOAttribute");
+	//	add_functionAI_dynamic_attribute("MyfunctionAIAttribute");
+	//	add_valueAI_dynamic_attribute("MyvalueAIAttribute");
+	//	add_rangeAI_dynamic_attribute("MyrangeAIAttribute");
+	
+	/*----- PROTECTED REGION ID(Pet7019::add_dynamic_attributes) ENABLED START -----*/
 		
 			char buff[100] = {0};
 			uint8_t channel_number = 0;
@@ -826,39 +826,41 @@ namespace Pet7019_ns
 	    	}
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::add_dynamic_attributes
-	}
+}
 
-	//--------------------------------------------------------
-	/**
-	 *	Command reboot related method
-	 *	Description: 
-	 *
-	 */
-	//--------------------------------------------------------
-	void Pet7019::reboot()
-	{
-		DEBUG_STREAM << "Pet7019::reboot()  - " << device_name << endl;
-		/*----- PROTECTED REGION ID(Pet7019::reboot) ENABLED START -----*/
+//--------------------------------------------------------
+/**
+ *	Command reboot related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void Pet7019::reboot()
+{
+	DEBUG_STREAM << "Pet7019::reboot()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(Pet7019::reboot) ENABLED START -----*/
 		try{
-			mb->write_bit(RegPet7019::REGISTER_reboot, 1);
+			mb->reboot(RegPet7019::REGISTER_reboot);
+			set_state(Tango::FAULT);
+			set_status("Pet7019 reboot");
 		} catch(PetException e) {
 			set_state(Tango::FAULT);
 			set_status(e.what());
 		}
 
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::reboot
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Command ping related method
-	 *	Description: 
-	 *
-	 */
-	//--------------------------------------------------------
-	void Pet7019::ping()
-	{
-		DEBUG_STREAM << "Pet7019::ping()  - " << device_name << endl;
-		/*----- PROTECTED REGION ID(Pet7019::ping) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Command ping related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void Pet7019::ping()
+{
+	DEBUG_STREAM << "Pet7019::ping()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(Pet7019::ping) ENABLED START -----*/
 		try{
 			mb->ping(RegPet7019::REGISTER_ping);
 		} catch(PetException e) {
@@ -866,28 +868,27 @@ namespace Pet7019_ns
 			set_status(e.what());
 		}
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::ping
-	}
-	//--------------------------------------------------------
-	/**
-	 *	Method      : Pet7019::add_dynamic_commands()
-	 *	Description : Create the dynamic commands if any
-	 *                for specified device.
-	 */
-	//--------------------------------------------------------
-	void Pet7019::add_dynamic_commands()
-	{
-		/*----- PROTECTED REGION ID(Pet7019::add_dynamic_commands) ENABLED START -----*/
+}
+//--------------------------------------------------------
+/**
+ *	Method      : Pet7019::add_dynamic_commands()
+ *	Description : Create the dynamic commands if any
+ *                for specified device.
+ */
+//--------------------------------------------------------
+void Pet7019::add_dynamic_commands()
+{
+	/*----- PROTECTED REGION ID(Pet7019::add_dynamic_commands) ENABLED START -----*/
 		
 		//	Add your own code to create and add dynamic commands if any
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::add_dynamic_commands
-	}
+}
 
-	/*----- PROTECTED REGION ID(Pet7019::namespace_ending) ENABLED START -----*/
+/*----- PROTECTED REGION ID(Pet7019::namespace_ending) ENABLED START -----*/
 
 	
 
 
 	/*----- PROTECTED REGION END -----*/	//	Pet7019::namespace_ending
-}
-//	namespace
+} //	namespace

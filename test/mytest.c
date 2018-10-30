@@ -1,4 +1,5 @@
 #include <modbus.h>
+#include <iostream>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -20,24 +21,52 @@ int main()
     
 
     mb = modbus_new_tcp("192.168.255.1", 502);
+    if(mb == NULL){
+        printf("11");
+        fprintf(stderr, "%s\n", modbus_strerror(errno));
+        return -1;
+    }
+    printf("13");
     //modbus_set_debug(mb, TRUE);
     //modbus_get_byte_timeout(mb, &to_sec);
     //printf("%d %d\n", to_sec.tv_sec, to_sec.tv_usec);
     modbus_set_slave(mb, 1);
-    
+    printf("14\n");
+    if(modbus_connect(mb) == -1){
+        printf("141\n");
+        fprintf(stderr, "Connection failed: %s\n", modbus_strerror(errno));
+        modbus_free(mb);
+        return -1;
+    }
+    printf("15\n");
+    modbus_write_bit(mb, 0x00e9, 1);
+    sleep(2);
     if(modbus_connect(mb) == -1){
         fprintf(stderr, "Connection failed: %s\n", modbus_strerror(errno));
         modbus_free(mb);
         return -1;
     }
+    /*if(modbus_write_bit(mb, 0x00e9, 0) != 1){
+        std::cout << "error";
+        return -1;
+    }*/
+    rc = modbus_write_bit(mb, addr, 0);
+    sleep(1);
+    rc = modbus_write_bit(mb, addr, 1);
+    if(rc != 1){
+        printf("Error\n");
+        return -1;
+    }
+    printf("3");
+    
 
-    tab_reg = (uint16_t *) malloc(32 * sizeof(uint16_t));
+    /*tab_reg = (uint16_t *) malloc(32 * sizeof(uint16_t));
     memset(tab_reg, 0, 32 * sizeof(uint16_t));
 
     tab_reg1 = (uint8_t *) malloc(32 * sizeof(uint8_t));
     memset(tab_reg1, 0, 32 * sizeof(uint8_t));
 
-    /*for (i=0; i<32; i++) {
+    for (i=0; i<32; i++) {
         tab_reg[i] = (uint16_t) (65535.0*rand() / (RAND_MAX + 1.0));
         }*/
     /* modbus_read_bits(mb, 0, 1, tab_reg1);
@@ -49,7 +78,7 @@ int main()
     sleep(1);
     rc = modbus_write_bit(mb, addr, 0);
     modbus_read_bits(mb, 0, 1, tab_reg1);
-    printf("%d: %d\n", 0, tab_reg1[0]);*/
+    printf("%d: %d\n", 0, tab_reg1[0]);
     rc = modbus_write_registers(mb, addr, -1, tab_reg);
     printf("%d: 0x%x\n%d\n", 0, tab_reg[0], rc);
     printf("%s\n", modbus_strerror(errno));
@@ -64,14 +93,14 @@ int main()
         rc = modbus_read_input_registers(mb, i, 1, tab_reg);
         //if(tab_reg[0] != 0)
             printf("%d: %d\n", i, tab_reg[0]);
-    }*/
+    }
     modbus_read_registers(mb, 0x01ab, 1, tab_reg);
     printf("%d: 0x%x\n", 427, tab_reg[0]);
     tab_reg[0] = 3;
     printf("%d\n", tab_reg[0]);
     modbus_write_registers(mb, 0x01ab, 1, tab_reg);
     modbus_read_registers(mb, 0x01ab, 1, tab_reg);
-    printf("%d: 0x%x\n", 427, tab_reg[0]);
+    printf("%d: 0x%x\n", 427, tab_reg[0]);*/
     
 
 

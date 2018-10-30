@@ -11,6 +11,7 @@ private:
 
 	void init(short ID, std::string IP, short Port);
 	void mb_delete();
+	void connect();
 
 public:
 
@@ -28,7 +29,6 @@ public:
 	void write_bits(int addr, int nb, const uint8_t *src);
 	void write_bit(int addr, int status);
 
-	void ping(int addr);
 
 	short get_moduleID();
 	void set_moduleID(short ID);
@@ -38,5 +38,14 @@ public:
 
 	short get_modulePort();
 	void set_modulePort(short Port);
+
+	void reconnect();
+
+
+	/*Pet7019 methods: ping, reboot*/
+	void ping(int addr);
+	void reboot(int addr);
+
+	
 
 };

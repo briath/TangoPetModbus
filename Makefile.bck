@@ -24,6 +24,8 @@ MAJOR_VERS   = 1
 MINOR_VERS   = 0
 RELEASE      = Release_$(MAJOR_VERS)_$(MINOR_VERS)
 
+ADDITIONAL_OBJS = ImplLibModbus.o
+
 # #=============================================================================
 # # RELEASE_TYPE
 # # - DEBUG     : debug symbols - no optimization
@@ -131,10 +133,6 @@ LIB_OBJS = \
 
 SVC_INHERITANCE_OBJ =  \
 
-#------------ Object files for additional files ------------
-ADDITIONAL_OBJS = \
-		$(OBJDIR)/ImplLibModbus.o \
-		$(OBJDIR)/PetException.o
 
 #=============================================================================
 #	include common targets
@@ -143,8 +141,4 @@ include $(MAKE_ENV)/common_target.opt
 
 
 
-$(OBJDIR)/ImplLibModbus.o:  ImplLibModbus.cpp $(SVC_INCL)
-	$(CXX) $(CXXFLAGS) -c $< -o $(OBJDIR)/ImplLibModbus.o
-$(OBJDIR)/PetException.o:  PetException.cpp $(SVC_INCL)
-	$(CXX) $(CXXFLAGS) -c $< -o $(OBJDIR)/PetException.o
 
