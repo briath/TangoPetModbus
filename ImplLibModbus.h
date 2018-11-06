@@ -1,3 +1,5 @@
+#ifndef IMPLLIBMODBUS_H
+#define IMPLLIBMODBUS_H
 #include <string>
 
 class ImplLibModbus{
@@ -49,3 +51,4 @@ public:
 	
 
 };
+#endif   //	IMPLLIBMODBUS_H

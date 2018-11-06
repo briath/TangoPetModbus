@@ -1,3 +1,5 @@
+#ifndef PETEXCEPTION_H
+#define PETEXCEPTION_H
 #include <exception>
 #include <string>
 
@@ -11,3 +13,4 @@ private:
 	int error;
 	std::string str_err;
 };
+#endif // PETEXCEPTION_H

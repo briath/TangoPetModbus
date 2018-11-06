@@ -119,9 +119,9 @@ void Pet7019::delete_device()
 {
 	DEBUG_STREAM << "Pet7019::delete_device() " << device_name << endl;
 	/*----- PROTECTED REGION ID(Pet7019::delete_device) ENABLED START -----*/
-			
 			if(mb != NULL){
 	        	delete mb;
+	        	mb = NULL;
 			}
 		
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::delete_device
@@ -164,15 +164,19 @@ void Pet7019::init_device()
 		try {
 			if(mb == NULL)
 				mb = new ImplLibModbus(moduleID, moduleIP.c_str(), modulePort);
+			else {
+				mb->reconnect();
+			}
+
 			set_state(Tango::ON);
 			set_status("Pet7019 connected");
 
 		}catch(PetException e){
 			set_state(Tango::FAULT);
 			set_status(e.what());
-		}
-			
+		}	
 		/*----- PROTECTED REGION END -----*/	//	Pet7019::init_device
+		
 }
 
 //--------------------------------------------------------
@@ -752,8 +756,6 @@ void Pet7019::write_rangeAI(Tango::WAttribute &attr)
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(Pet7019::write_rangeAI) ENABLED START -----*/
 		try{
-
-			int rc = -1;
 			uint16_t uint16_reg = w_val;
 
 			if(uint16_reg > 0x1a || (uint16_reg > 0x07 && uint16_reg < 0x0e))
@@ -862,7 +864,8 @@ void Pet7019::ping()
 	DEBUG_STREAM << "Pet7019::ping()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(Pet7019::ping) ENABLED START -----*/
 		try{
-			mb->ping(RegPet7019::REGISTER_ping);
+			if(get_state() != Tango::FAULT)
+				mb->ping(RegPet7019::REGISTER_ping);
 		} catch(PetException e) {
 			set_state(Tango::FAULT);
 			set_status(e.what());
